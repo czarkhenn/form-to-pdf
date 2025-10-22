@@ -1,0 +1,5 @@
+Django>=5.1,<5.2
+WeasyPrint==59.0
+pydyf==0.8.0
+gunicorn>=21.0,<22.0
+
