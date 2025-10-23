@@ -1,16 +1,16 @@
 {% extends 'base.html' %}
 
-{% block title %}User Data Form - Form to PDF{% endblock %}
+{% block title %}Employment Reference Form{% endblock %}
 
 {% block content %}
 <div class="row justify-content-center">
-    <div class="col-md-6">
-        <div class="card shadow">
+    <div class="col-lg-9">
+        <div class="card shadow-sm">
             <div class="card-header bg-primary text-white">
-                <h4 class="mb-0">User Information Form</h4>
+                <h4 class="mb-0">Employment Reference/Verification Form</h4>
             </div>
             <div class="card-body">
-                <p class="text-muted">Please fill in your information below. You'll be able to preview it before downloading as PDF.</p>
+                <p class="text-muted">All fields marked with <span class="text-danger">*</span> are required.</p>
                 
                 {% if form.non_field_errors %}
                     <div class="alert alert-danger" role="alert">
@@ -21,103 +21,294 @@
                 <form method="post" id="userForm">
                     {% csrf_token %}
                     
+                    <!-- School/District Information -->
+                    <h5 class="border-bottom pb-2 mb-3 mt-4">School/District Information</h5>
+                    
                     <div class="mb-3">
-                        <label for="{{ form.first_name.id_for_label }}" class="form-label">First Name *</label>
-                        <input type="text" name="first_name" class="form-control {% if form.first_name.errors %}is-invalid{% endif %}" 
-                               id="{{ form.first_name.id_for_label }}" 
-                               value="{{ form.first_name.value|default:'' }}"
-                               placeholder="Enter your first name" required>
-                        {% if form.first_name.errors %}
-                            <div class="invalid-feedback">
-                                {{ form.first_name.errors.0 }}
-                            </div>
-                        {% else %}
-                            <div class="invalid-feedback">
-                                Please enter your first name.
-                            </div>
+                        <label for="{{ form.name_of_school_district.id_for_label }}" class="form-label">{{ form.name_of_school_district.label }} <span class="text-danger">*</span></label>
+                        <input type="text" name="name_of_school_district" id="{{ form.name_of_school_district.id_for_label }}" 
+                               value="{{ form.name_of_school_district.value|default:'' }}"
+                               class="form-control {% if form.name_of_school_district.errors %}is-invalid{% endif %}"
+                               placeholder="Enter school/district" required>
+                        {% if form.name_of_school_district.errors %}
+                            <div class="invalid-feedback">{{ form.name_of_school_district.errors.0 }}</div>
                         {% endif %}
                     </div>
                     
                     <div class="mb-3">
-                        <label for="{{ form.last_name.id_for_label }}" class="form-label">Last Name *</label>
-                        <input type="text" name="last_name" class="form-control {% if form.last_name.errors %}is-invalid{% endif %}" 
-                               id="{{ form.last_name.id_for_label }}" 
-                               value="{{ form.last_name.value|default:'' }}"
-                               placeholder="Enter your last name" required>
-                        {% if form.last_name.errors %}
-                            <div class="invalid-feedback">
-                                {{ form.last_name.errors.0 }}
-                            </div>
-                        {% else %}
-                            <div class="invalid-feedback">
-                                Please enter your last name.
-                            </div>
+                        <label for="{{ form.address_of_school_district.id_for_label }}" class="form-label">{{ form.address_of_school_district.label }} <span class="text-danger">*</span></label>
+                        <input type="text" name="address_of_school_district" id="{{ form.address_of_school_district.id_for_label }}" 
+                               value="{{ form.address_of_school_district.value|default:'' }}"
+                               class="form-control {% if form.address_of_school_district.errors %}is-invalid{% endif %}"
+                               placeholder="Enter school/district address" required>
+                        {% if form.address_of_school_district.errors %}
+                            <div class="invalid-feedback">{{ form.address_of_school_district.errors.0 }}</div>
+                        {% endif %}
+                    </div>
+                    
+
+                    
+                    <!-- Employee Information -->
+                    <h5 class="border-bottom pb-2 mb-3 mt-4">Employee Information</h5>
+                    
+                    <div class="mb-3">
+                        <label for="{{ form.employee_name.id_for_label }}" class="form-label">{{ form.employee_name.label }} <span class="text-danger">*</span></label>
+                        <input type="text" name="employee_name" id="{{ form.employee_name.id_for_label }}" 
+                               value="{{ form.employee_name.value|default:'' }}"
+                               class="form-control {% if form.employee_name.errors %}is-invalid{% endif %}"
+                               placeholder="Enter employee name" required>
+                        {% if form.employee_name.errors %}
+                            <div class="invalid-feedback">{{ form.employee_name.errors.0 }}</div>
                         {% endif %}
                     </div>
                     
                     <div class="mb-3">
-                        <label for="{{ form.email.id_for_label }}" class="form-label">Email Address *</label>
-                        <input type="email" name="email" class="form-control {% if form.email.errors %}is-invalid{% endif %}" 
-                               id="{{ form.email.id_for_label }}" 
-                               value="{{ form.email.value|default:'' }}"
-                               placeholder="Enter your email address" required>
-                        {% if form.email.errors %}
-                            <div class="invalid-feedback">
-                                {{ form.email.errors.0 }}
+                        <label for="{{ form.positions_held_while_employed.id_for_label }}" class="form-label">{{ form.positions_held_while_employed.label }} <span class="text-danger">*</span></label>
+                        <input type="text" name="positions_held_while_employed" id="{{ form.positions_held_while_employed.id_for_label }}" 
+                               value="{{ form.positions_held_while_employed.value|default:'' }}"
+                               class="form-control {% if form.positions_held_while_employed.errors %}is-invalid{% endif %}"
+                               placeholder="Enter position(s) held" required>
+                        {% if form.positions_held_while_employed.errors %}
+                            <div class="invalid-feedback">{{ form.positions_held_while_employed.errors.0 }}</div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="{{ form.from_date.id_for_label }}" class="form-label">{{ form.from_date.label }} <span class="text-danger">*</span></label>
+                            <input type="text" name="from_date" id="{{ form.from_date.id_for_label }}" 
+                                   value="{{ form.from_date.value|default:'' }}"
+                                   class="form-control {% if form.from_date.errors %}is-invalid{% endif %}"
+                                   placeholder="MM, YYYY" required>
+                            {% if form.from_date.errors %}
+                                <div class="invalid-feedback">{{ form.from_date.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="col-md-6 mb-3">
+                            <label for="{{ form.to_date.id_for_label }}" class="form-label">{{ form.to_date.label }} <span class="text-danger">*</span></label>
+                            <input type="text" name="to_date" id="{{ form.to_date.id_for_label }}" 
+                                   value="{{ form.to_date.value|default:'' }}"
+                                   class="form-control {% if form.to_date.errors %}is-invalid{% endif %}"
+                                   placeholder="MM, YYYY" required>
+                            {% if form.to_date.errors %}
+                                <div class="invalid-feedback">{{ form.to_date.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <!-- Employment Status -->
+                    <h5 class="border-bottom pb-2 mb-3 mt-4">Employment Status</h5>
+                    
+                    <div class="mb-3">
+                        <label class="form-label">{{ form.reason_for_leaving.label }} <span class="text-danger">*</span></label>
+                        {% for radio in form.reason_for_leaving %}
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="reason_for_leaving" id="{{ radio.id_for_label }}" value="{{ radio.choice_value }}"
+                                       {% if radio.choice_value == form.reason_for_leaving.value %}checked{% endif %} required>
+                                <label class="form-check-label" for="{{ radio.id_for_label }}">
+                                    {{ radio.choice_label }}
+                                </label>
                             </div>
-                        {% else %}
-                            <div class="invalid-feedback">
-                                Please enter a valid email address.
-                            </div>
+                        {% endfor %}
+                        {% if form.reason_for_leaving.errors %}
+                            <div class="text-danger small">{{ form.reason_for_leaving.errors.0 }}</div>
                         {% endif %}
                     </div>
                     
                     <div class="mb-3">
-                        <label for="{{ form.phone_number.id_for_label }}" class="form-label">Phone Number *</label>
-                        <input type="tel" name="phone_number" class="form-control {% if form.phone_number.errors %}is-invalid{% endif %}" 
-                               id="{{ form.phone_number.id_for_label }}" 
-                               value="{{ form.phone_number.value|default:'' }}"
-                               placeholder="+1234567890" 
-                               pattern="^\+?1?\d{9,15}$" required>
-                        <small class="form-text text-muted">Format: +1234567890</small>
-                        {% if form.phone_number.errors %}
-                            <div class="invalid-feedback">
-                                {{ form.phone_number.errors.0 }}
-                            </div>
-                        {% else %}
-                            <div class="invalid-feedback">
-                                Please enter a valid phone number (9-15 digits).
-                            </div>
+                        <label for="{{ form.other_reason.id_for_label }}" class="form-label">{{ form.other_reason.label }}</label>
+                        <input type="text" name="other_reason" id="{{ form.other_reason.id_for_label }}" 
+                               value="{{ form.other_reason.value|default:'' }}"
+                               class="form-control {% if form.other_reason.errors %}is-invalid{% endif %}"
+                               placeholder='Please specify if "Other" selected'>
+                        <small class="text-muted">Only required if "Other" is selected above</small>
+                        {% if form.other_reason.errors %}
+                            <div class="invalid-feedback">{{ form.other_reason.errors.0 }}</div>
                         {% endif %}
                     </div>
                     
-                    <div class="d-grid">
-                        <button type="submit" class="btn btn-primary btn-lg">Submit</button>
+                    <div class="mb-3">
+                        <label class="form-label">{{ form.current_employed.label }} <span class="text-danger">*</span></label>
+                        <div>
+                            {% for radio in form.current_employed %}
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="current_employed" id="{{ radio.id_for_label }}" value="{{ radio.choice_value }}"
+                                           {% if radio.choice_value == form.current_employed.value %}checked{% endif %} required>
+                                    <label class="form-check-label" for="{{ radio.id_for_label }}">
+                                        {{ radio.choice_label }}
+                                    </label>
+                                </div>
+                            {% endfor %}
+                        </div>
+                        {% if form.current_employed.errors %}
+                            <div class="text-danger small">{{ form.current_employed.errors.0 }}</div>
+                        {% endif %}
+                    </div>
+                    
+                    <!-- Eligibility & Investigation Questions -->
+                    <h5 class="border-bottom pb-2 mb-3 mt-4">Eligibility & Investigation Questions</h5>
+                    
+                    <div class="mb-3">
+                        <label class="form-label">{{ form.eligible_for_rehire.label }} <span class="text-danger">*</span></label>
+                        <div>
+                            {% for radio in form.eligible_for_rehire %}
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="eligible_for_rehire" id="{{ radio.id_for_label }}" value="{{ radio.choice_value }}"
+                                           {% if radio.choice_value == form.eligible_for_rehire.value %}checked{% endif %} required>
+                                    <label class="form-check-label" for="{{ radio.id_for_label }}">
+                                        {{ radio.choice_label }}
+                                    </label>
+                                </div>
+                            {% endfor %}
+                        </div>
+                        {% if form.eligible_for_rehire.errors %}
+                            <div class="text-danger small">{{ form.eligible_for_rehire.errors.0 }}</div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="{{ form.if_no_why.id_for_label }}" class="form-label">{{ form.if_no_why.label }}</label>
+                        <textarea name="if_no_why" id="{{ form.if_no_why.id_for_label }}" rows="3"
+                                  class="form-control {% if form.if_no_why.errors %}is-invalid{% endif %}"
+                                  placeholder="Please explain if not eligible for rehire">{{ form.if_no_why.value|default:'' }}</textarea>
+                        <small class="text-muted">Only required if answer to above is "No"</small>
+                        {% if form.if_no_why.errors %}
+                            <div class="invalid-feedback">{{ form.if_no_why.errors.0 }}</div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label">{{ form.subject_of_investigations.label }} <span class="text-danger">*</span></label>
+                        <div>
+                            {% for radio in form.subject_of_investigations %}
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="subject_of_investigations" id="{{ radio.id_for_label }}" value="{{ radio.choice_value }}"
+                                           {% if radio.choice_value == form.subject_of_investigations.value %}checked{% endif %} required>
+                                    <label class="form-check-label" for="{{ radio.id_for_label }}">
+                                        {{ radio.choice_label }}
+                                    </label>
+                                </div>
+                            {% endfor %}
+                        </div>
+                        {% if form.subject_of_investigations.errors %}
+                            <div class="text-danger small">{{ form.subject_of_investigations.errors.0 }}</div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label">{{ form.investigation_disciplinary_action.label }} <span class="text-danger">*</span></label>
+                        <div>
+                            {% for radio in form.investigation_disciplinary_action %}
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="investigation_disciplinary_action" id="{{ radio.id_for_label }}" value="{{ radio.choice_value }}"
+                                           {% if radio.choice_value == form.investigation_disciplinary_action.value %}checked{% endif %} required>
+                                    <label class="form-check-label" for="{{ radio.id_for_label }}">
+                                        {{ radio.choice_label }}
+                                    </label>
+                                </div>
+                            {% endfor %}
+                        </div>
+                        {% if form.investigation_disciplinary_action.errors %}
+                            <div class="text-danger small">{{ form.investigation_disciplinary_action.errors.0 }}</div>
+                        {% endif %}
+                    </div>
+                    
+                    <!-- Contact Information -->
+                    <h5 class="border-bottom pb-2 mb-3 mt-4">Contact Information</h5>
+                    <div class="mb-3">
+                        <label for="{{ form.district_name.id_for_label }}" class="form-label">{{ form.district_name.label }} <span class="text-danger">*</span></label>
+                        <input type="text" name="district_name" id="{{ form.district_name.id_for_label }}" 
+                               value="{{ form.district_name.value|default:'' }}"
+                               class="form-control {% if form.district_name.errors %}is-invalid{% endif %}"
+                               placeholder="Enter district name" required>
+                        {% if form.district_name.errors %}
+                            <div class="invalid-feedback">{{ form.district_name.errors.0 }}</div>
+                        {% endif %}
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="{{ form.contact_name.id_for_label }}" class="form-label">{{ form.contact_name.label }} <span class="text-danger">*</span></label>
+                            <input type="text" name="contact_name" id="{{ form.contact_name.id_for_label }}" 
+                                   value="{{ form.contact_name.value|default:'' }}"
+                                   class="form-control {% if form.contact_name.errors %}is-invalid{% endif %}"
+                                   placeholder="Enter contact name" required>
+                            {% if form.contact_name.errors %}
+                                <div class="invalid-feedback">{{ form.contact_name.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="col-md-6 mb-3">
+                            <label for="{{ form.contact_position.id_for_label }}" class="form-label">{{ form.contact_position.label }} <span class="text-danger">*</span></label>
+                            <input type="text" name="contact_position" id="{{ form.contact_position.id_for_label }}" 
+                                   value="{{ form.contact_position.value|default:'' }}"
+                                   class="form-control {% if form.contact_position.errors %}is-invalid{% endif %}"
+                                   placeholder="Enter contact position" required>
+                            {% if form.contact_position.errors %}
+                                <div class="invalid-feedback">{{ form.contact_position.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="{{ form.phone.id_for_label }}" class="form-label">{{ form.phone.label }} <span class="text-danger">*</span></label>
+                            <input type="tel" name="phone" id="{{ form.phone.id_for_label }}" 
+                                   value="{{ form.phone.value|default:'' }}"
+                                   class="form-control {% if form.phone.errors %}is-invalid{% endif %}"
+                                   placeholder="+1234567890" 
+                                   pattern="^\+?1?\d{9,15}$" required>
+                            <small class="text-muted">Format: +1234567890</small>
+                            {% if form.phone.errors %}
+                                <div class="invalid-feedback">{{ form.phone.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="col-md-6 mb-3">
+                            <label for="{{ form.email.id_for_label }}" class="form-label">{{ form.email.label }} <span class="text-danger">*</span></label>
+                            <input type="email" name="email" id="{{ form.email.id_for_label }}" 
+                                   value="{{ form.email.value|default:'' }}"
+                                   class="form-control {% if form.email.errors %}is-invalid{% endif %}"
+                                   placeholder="Enter email address" required>
+                            {% if form.email.errors %}
+                                <div class="invalid-feedback">{{ form.email.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <!-- Additional Information -->
+                    <h5 class="border-bottom pb-2 mb-3 mt-4">Additional Information</h5>
+                    
+                    <div class="mb-3">
+                        <label for="{{ form.any_additional_information_optional.id_for_label }}" class="form-label">{{ form.any_additional_information_optional.label }}</label>
+                        <textarea name="any_additional_information_optional" id="{{ form.any_additional_information_optional.id_for_label }}" rows="4"
+                                  class="form-control {% if form.any_additional_information_optional.errors %}is-invalid{% endif %}"
+                                  placeholder="Enter any additional information (optional)">{{ form.any_additional_information_optional.value|default:'' }}</textarea>
+                        {% if form.any_additional_information_optional.errors %}
+                            <div class="invalid-feedback">{{ form.any_additional_information_optional.errors.0 }}</div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="{{ form.additional_information_500_char_limit.id_for_label }}" class="form-label">{{ form.additional_information_500_char_limit.label }} <span class="text-danger">*</span></label>
+                        <textarea name="additional_information_500_char_limit" id="{{ form.additional_information_500_char_limit.id_for_label }}" rows="4" maxlength="500"
+                                  class="form-control {% if form.additional_information_500_char_limit.errors %}is-invalid{% endif %}"
+                                  placeholder="Enter additional information (max 500 characters)" required>{{ form.additional_information_500_char_limit.value|default:'' }}</textarea>
+                        <small class="text-muted">
+                            <span id="charCount">0</span>/500 characters
+                        </small>
+                        {% if form.additional_information_500_char_limit.errors %}
+                            <div class="invalid-feedback">{{ form.additional_information_500_char_limit.errors.0 }}</div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="d-grid mt-4">
+                        <button type="submit" class="btn btn-primary btn-lg">Write to PDF</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
 </div>
-{% endblock %}
-
-{% block extra_js %}
-<script>
-    // Bootstrap form validation
-    (function() {
-        'use strict';
-        
-        const form = document.getElementById('userForm');
-        
-        form.addEventListener('submit', function(event) {
-            if (!form.checkValidity()) {
-                event.preventDefault();
-                event.stopPropagation();
-            }
-            
-            form.classList.add('was-validated');
-        }, false);
-    })();
-</script>
 {% endblock %}
 
