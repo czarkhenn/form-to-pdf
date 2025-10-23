@@ -5,9 +5,10 @@ ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 ENV DEBIAN_FRONTEND=noninteractive
 
-# Install WeasyPrint dependencies
-RUN apt-get clean && \
-    apt-get update && \
+RUN groupadd -r django && useradd -r -g django django
+
+# Install system dependencies for WeasyPrint
+RUN apt-get update && \
     apt-get install -y --no-install-recommends \
     libcairo2 \
     libpango-1.0-0 \
@@ -17,21 +18,26 @@ RUN apt-get clean && \
     shared-mime-info \
     fontconfig \
     fonts-dejavu-core \
-    && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
 # Set work directory
 WORKDIR /app
 
-# Install Python dependencies
 COPY requirements.txt /app/
-RUN pip install --upgrade pip && pip install -r requirements.txt
+RUN pip install --no-cache-dir --upgrade pip && \
+    pip install --no-cache-dir -r requirements.txt
 
 # Copy project
 COPY . /app/
 
+# Create necessary directories
+RUN mkdir -p /app/staticfiles /app/media && \
+    chown -R django:django /app
+
 # Make entrypoint executable
 RUN chmod +x /app/entrypoint.sh
+
+USER django
 
 # Expose port
 EXPOSE 8000

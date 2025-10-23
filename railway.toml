@@ -1,0 +1,12 @@
+[build]
+builder = "dockerfile"
+
+[deploy]
+startCommand = "bash entrypoint.sh"
+healthcheckPath = "/"
+
+[environments.production]
+variables = [
+    { name = "ALLOWED_HOSTS", value = ".railway.app" },
+    { name = "ENVIRONMENT", value = "production" }
+]

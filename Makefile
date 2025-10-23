@@ -1,4 +1,4 @@
-.PHONY: build start stop restart makemigrations migrate logs test
+.PHONY: build start stop restart makemigrations migrate logs test check shell
 
 build:
 	docker-compose build
@@ -23,4 +23,10 @@ makemigrations:
 
 migrate:
 	docker-compose exec web python manage.py migrate
+
+check:
+	docker-compose exec web python manage.py check
+
+shell:
+	docker-compose exec web python manage.py shell
 
