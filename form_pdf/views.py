@@ -35,12 +35,21 @@ class GeneratePDFView(View):
     """
     Generate and return PDF from stored user data.
     """
-    
+
     def get(self, request):
         user_data = request.session.get('user_data')
-        
+
         if not user_data:
             return JsonResponse({'error': 'No data available'}, status=400)
-        
+
         return generate_pdf_from_data(user_data)
+
+
+class HealthCheckView(View):
+    """
+    Healthcheck endpoint that returns JSON response with 200 status.
+    """
+
+    def get(self, request):
+        return JsonResponse({'message': 'Ok'}, status=200)
 
