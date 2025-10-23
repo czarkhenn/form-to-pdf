@@ -2,8 +2,8 @@
 builder = "dockerfile"
 
 [deploy]
-startCommand = "bash entrypoint.sh"
 healthcheckPath = "/"
+healthcheckTimeout = 100
 
 [environments.production]
 variables = [

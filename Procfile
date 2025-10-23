@@ -1,1 +1,1 @@
-web: bash entrypoint.sh
+web: ./entrypoint.sh
