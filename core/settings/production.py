@@ -3,7 +3,7 @@ import os
 
 DEBUG = False
 
-ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '.railway.app,.localhost,127.0.0.1').split(',')
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', 'form-to-pdf-production.up.railway.app')
 
 # Security settings for production
 SECURE_SSL_REDIRECT = True
