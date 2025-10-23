@@ -18,8 +18,9 @@ RUN apt-get update && \
     shared-mime-info \
     fontconfig \
     fonts-dejavu-core \
-    && rm -rf /var/lib/apt/lists/*
-
+    && rm -rf /var/lib/apt/lists/* \
+    && mkdir -p /var/cache/fontconfig /root/.cache/fontconfig \
+    && fc-cache -f
 # Set work directory
 WORKDIR /app
 
@@ -32,7 +33,8 @@ COPY . /app/
 
 # Create necessary directories
 RUN mkdir -p /app/staticfiles /app/media && \
-    chown -R django:django /app
+    mkdir -p /home/django/.cache/fontconfig && \
+    chown -R django:django /app /home/django/.cache
 
 # Make entrypoint executable
 RUN chmod +x /app/entrypoint.sh
