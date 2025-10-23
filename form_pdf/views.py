@@ -6,14 +6,22 @@ from .forms import UserDataForm
 from .services import generate_pdf_from_data
 
 
+class HealthCheckView(View):
+    """
+    Health check endpoint for Railway.
+    """
+
+    def get(self, request):
+        return JsonResponse({'message': 'Ok'}, status=200)
+
 class UserFormView(View):
     """
     Display the user data form and handle form submission.
     On valid submission, show HTML preview.
     """
-    
+
     template_name = 'form_pdf/form.html'
-    
+
     def get(self, request):
         form = UserDataForm()
         return render(request, self.template_name, {'form': form})
