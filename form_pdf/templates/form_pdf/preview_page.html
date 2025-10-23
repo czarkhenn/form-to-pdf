@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+
+{% block title %}Preview - Form to PDF{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="alert alert-success" role="alert">
+            <h5 class="alert-heading">Success!</h5>
+            <p>Your information has been submitted. Please review the details below before downloading the PDF.</p>
+        </div>
+        
+        <div class="card shadow">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0">Your Information</h4>
+            </div>
+            <div class="card-body">
+                <div class="row mb-3">
+                    <div class="col-md-4">
+                        <strong>First Name:</strong>
+                    </div>
+                    <div class="col-md-8">
+                        {{ data.first_name }}
+                    </div>
+                </div>
+                
+                <div class="row mb-3">
+                    <div class="col-md-4">
+                        <strong>Last Name:</strong>
+                    </div>
+                    <div class="col-md-8">
+                        {{ data.last_name }}
+                    </div>
+                </div>
+                
+                <div class="row mb-3">
+                    <div class="col-md-4">
+                        <strong>Email:</strong>
+                    </div>
+                    <div class="col-md-8">
+                        {{ data.email }}
+                    </div>
+                </div>
+                
+                <div class="row mb-3">
+                    <div class="col-md-4">
+                        <strong>Phone Number:</strong>
+                    </div>
+                    <div class="col-md-8">
+                        {{ data.phone_number }}
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="d-flex justify-content-between">
+                    <a href="{% url 'form_pdf:form' %}" class="btn btn-danger btn-lg">
+                        <i class="bi bi-arrow-left"></i> Back
+                    </a>
+                    <a href="{% url 'form_pdf:generate_pdf' %}" class="btn btn-success btn-lg">
+                        <i class="bi bi-download"></i> Download PDF
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
