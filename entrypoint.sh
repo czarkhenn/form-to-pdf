@@ -1,47 +1,47 @@
-#!/bin/bash
+#!/usr/bin/env bash
+set -euo pipefail
 
-# Set Django settings module based on environment
+# Default to production if ENVIRONMENT is not set
+ENVIRONMENT="${ENVIRONMENT:-production}"
+export PORT="${PORT:-8000}"
+
 if [ "$ENVIRONMENT" = "development" ]; then
-    export DJANGO_SETTINGS_MODULE=core.settings.local
-    echo "Running in DEVELOPMENT mode"
+  export DJANGO_SETTINGS_MODULE=core.settings.local
+  echo "Running in DEVELOPMENT mode"
 
-    # Run migrations
-    echo "Running Django migrations..."
-    python manage.py migrate --noinput 2>&1 || { echo "Migration failed!"; exit 1; }
+  echo "Running migrations..."
+  python manage.py migrate --noinput
 
-    # Start development server with hot reload
-    echo "Starting Django development server on port ${PORT:-8000}"
-    exec python manage.py runserver 0.0.0.0:${PORT:-8000}
+  echo "Starting Django dev server on 0.0.0.0:${PORT}"
+  exec python manage.py runserver 0.0.0.0:${PORT}
+
 elif [ "$ENVIRONMENT" = "production" ]; then
-    export DJANGO_SETTINGS_MODULE=core.settings.production
-    echo "Running in PRODUCTION mode"
+  export DJANGO_SETTINGS_MODULE=core.settings.production
+  echo "Running in PRODUCTION mode (PORT=$PORT)"
 
-    # Run migrations
-    echo "Running Django migrations..."
-    python manage.py migrate --noinput 2>&1 || { echo "Migration failed!"; exit 1; }
+  echo "Running migrations..."
+  python manage.py migrate --noinput
 
-    # Collect static files
-    echo "📁 Collecting static files..."
-    python manage.py collectstatic --noinput 2>&1 || { echo "Static file collection failed!"; exit 1; }
+  echo "Collecting static..."
+  python manage.py collectstatic --noinput
 
 
-    export PORT=${PORT:-8000}
-    echo "Using PORT: $PORT"
+  WORKERS="${WEB_CONCURRENCY:-2}"
+  THREADS="${GUNICORN_THREADS:-2}"
+  TIMEOUT="${GUNICORN_TIMEOUT:-60}"
+  KEEPALIVE="${GUNICORN_KEEPALIVE:-5}"
+  GRACEFUL="${GUNICORN_GRACEFUL_TIMEOUT:-30}"
 
-    # Wait for server to be ready
-    echo "Waiting 5 seconds for server startup..."
-    sleep 5
-
-    # Start production server with gunicorn
-    echo "Starting Gunicorn server on 0.0.0.0:$PORT"
-    exec gunicorn core.wsgi:application \
-        --bind 0.0.0.0:$PORT \
-        --workers 2 \
-        --threads 2 \
-        --log-level info \
+  echo "Starting Gunicorn on 0.0.0.0:${PORT} (workers=$WORKERS threads=$THREADS)"
+  exec gunicorn core.wsgi:application \
+    --bind 0.0.0.0:${PORT} \
+    --workers "$WORKERS" \
+    --threads "$THREADS" \
+    --timeout "$TIMEOUT" \
+    --graceful-timeout "$GRACEFUL" \
+    --keep-alive "$KEEPALIVE" \
+    --log-level info
 else
-    echo "Unknown ENVIRONMENT: $ENVIRONMENT"
-    echo "Expected: development, production, or unset (defaults to production)"
-    exit 1
+  echo "Unknown ENVIRONMENT: $ENVIRONMENT"
+  exit 1
 fi
-
