@@ -1,20 +1,19 @@
 # Form to PDF Generator
 
-A Django web application that allows users to fill out a form and generate a PDF document from the submitted data. The application uses WeasyPrint for PDF generation and provides a clean web interface for form input and preview.
+A Django web application that allows users to fill out a form and generate PDF document from `form.pdf` template. The application uses pypdf for PDF generation.
 
 ## Features
 
 - **Dynamic Form Input**: User-friendly web form for data collection
-- **Preview Functionality**: HTML preview before PDF generation
-- **PDF Generation**: High-quality PDF creation using WeasyPrint
-- **Docker Support**: Easy deployment with Docker and docker-compose
+- **PDF Generation**: `pypdf` reads, clones and fill out the `form.pdf`
+- **Docker Support**: Local development with Docker and docker-compose
 
 ## Dependencies
 - **Docker**
 
 ### Python Dependencies
 - **Django**
-- **WeasyPrint** 
+- **pypdf** 
 
 ## Setup Instructions
 
@@ -46,8 +45,7 @@ A Django web application that allows users to fill out a form and generate a PDF
 ## Usage
 
 1. **Fill out the form**: Navigate to the main page and complete the user data form
-2. **Preview your data**: After submission, review the HTML preview of your information
-3. **Generate PDF**: Click the PDF generation button to create and download your document
+2. **Writeto PDF**: Click the Write to PDF button to download your document
 
 
 ## Development Commands
@@ -57,7 +55,6 @@ A Django web application that allows users to fill out a form and generate a PDF
 - `make stop`: Stop the application
 - `make restart`: Restart the application
 - `make logs`: View application logs
-- `make test`: Run tests
 - `make makemigrations`: Create database migrations
 - `make migrate`: Apply database migrations
 
